@@ -1,5 +1,5 @@
 const apiUrl = process.env.API_URL || 'http://192.168.86.63:3001';
-console.log(apiUrl);
+console.log(apiUrl, process.env);
 
 export const getMemberAccess = async (wallet) => {  
   const response = await fetch(`${apiUrl}/people/${wallet.toLowerCase()}`, {
