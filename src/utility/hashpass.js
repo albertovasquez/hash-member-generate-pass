@@ -1,4 +1,4 @@
-const apiUrl = 'http://181.205.103.74:3001';
+const apiUrl = 'https://api.hashhouse.club';
 
 export const getMemberAccess = async (wallet) => {  
   const response = await fetch(`${apiUrl}/people/${wallet.toLowerCase()}`, {
