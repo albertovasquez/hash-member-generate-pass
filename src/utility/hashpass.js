@@ -1,5 +1,8 @@
+const apiUrl = process.env.API_URL || 'http://192.168.86.63:3001';
+console.log(apiUrl);
+
 export const getMemberAccess = async (wallet) => {  
-  const response = await fetch(`http://localhost:3001/people/${wallet.toLowerCase()}`, {
+  const response = await fetch(`${apiUrl}/people/${wallet.toLowerCase()}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'image/png',
@@ -11,7 +14,7 @@ export const getMemberAccess = async (wallet) => {
 
 export const getHashPass = async (wallet, signature) => {
   console.log('getting hash pass with wallet:', wallet);
-  const response = await fetch(`http://localhost:3001/member?wallet=${wallet.toLowerCase()}`, {
+  const response = await fetch(`${apiUrl}/member?wallet=${wallet.toLowerCase()}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'image/png',
