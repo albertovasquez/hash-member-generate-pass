@@ -1,6 +1,6 @@
 import { getHashPass } from "../utility/hashpass";
 
-const Connected = ({walletConnector, memberWallet, setGeneratingHashPass, setIsAuthenticated}) => {  
+const Connected = ({walletConnector, memberWallet, setGeneratingHashPass, setIsAuthenticated}) => {
   const generateHashPass = async () => {
     // Draft Message Parameters
     const message = "Generate a HASH Pass";

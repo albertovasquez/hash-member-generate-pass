@@ -1,10 +1,22 @@
 const apiUrl = 'https://api.hashhouse.club';
+// const apiUrl = 'http://localhost:3001';
+
+export const getNFTAccess = async (wallet) => {
+  const response = await fetch(`${apiUrl}/nfts/${wallet.toLowerCase()}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'image/json',
+    },
+  });
+  
+  return response.json();
+}
 
 export const getMemberAccess = async (wallet) => {  
   const response = await fetch(`${apiUrl}/people/${wallet.toLowerCase()}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'image/png',
+      'Content-Type': 'image/json',
     },
   });
   

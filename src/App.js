@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Connect from "./components/Connect";
 import Connected from "./components/Connected";
-import { getMemberAccess } from "./utility/hashpass";
+import { getMemberAccess, getNFTAccess } from "./utility/hashpass";
 
 // Create connector
 const walletConnector = new NodeWalletConnect(
@@ -27,6 +27,7 @@ function App() {
   const [generatingHashPass, setGeneratingHashPass] = useState(false);  
   const [memberWallet, setMemberWallet] = useState(null);  
   const [isMember, setIsMember] = useState(null);  
+  const [isNFTAccess, setIsNFTAccess] = useState(null);  
 
   useEffect(() => {
     walletConnector.on("connect", async (error, payload) => {
@@ -34,14 +35,24 @@ function App() {
         throw error;
       }
     
+      console.log(walletConnector);
+
       // Get provided accounts and chainId
       const { accounts } = payload.params[0];
-      
+
+      let isWalletOwnNFT = false;
       const isWalletFromMember = ((await getMemberAccess(accounts[0])).length > 0);
       setIsMember(isWalletFromMember);
+
+      // check if NFT owner
+      if (!isWalletFromMember) {
+        isWalletOwnNFT = ((await getNFTAccess(accounts[0])).length > 0);
+        setIsNFTAccess(isWalletOwnNFT);
+      }      
+      
       WalletConnectQRCodeModal.close();     
 
-      if (!isWalletFromMember) {
+      if (!isWalletFromMember && !isWalletOwnNFT) {
         setIsAuthenticated(false);
         setMemberWallet(null);
         localStorage.removeItem("walletconnect");
@@ -66,7 +77,7 @@ function App() {
       if (error) {
         throw error;
       }
-    
+      console.log('disconnected', payload)
       localStorage.removeItem("walletconnect");
       setIsAuthenticated(false);
       setGeneratingHashPass(false);
@@ -74,7 +85,7 @@ function App() {
 
     (async () => {
       // Check if connection is already established
-      if ( walletConnector.connected ) {
+      if ( walletConnector.connected ) {        
         // create new session
         // await walletConnector.createSession();
         setMemberWallet(walletConnector.accounts[0]);
