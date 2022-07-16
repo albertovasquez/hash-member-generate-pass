@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Connect from "./components/Connect";
 import Connected from "./components/Connected";
-import { getMemberAccess, getNFTAccess } from "./utility/hashpass";
+import { getNFTAccess } from "./utility/hashpass";
 
 // Create connector
 const walletConnector = new NodeWalletConnect(
@@ -34,25 +34,20 @@ function App() {
       if (error) {
         throw error;
       }
-    
-      console.log(walletConnector);
 
       // Get provided accounts and chainId
       const { accounts } = payload.params[0];
 
-      let isWalletOwnNFT = false;
-      const isWalletFromMember = ((await getMemberAccess(accounts[0])).length > 0);
-      setIsMember(isWalletFromMember);
-
-      // check if NFT owner
-      if (!isWalletFromMember) {
-        isWalletOwnNFT = ((await getNFTAccess(accounts[0])).length > 0);
-        setIsNFTAccess(isWalletOwnNFT);
-      }      
+      const members = await getNFTAccess(accounts[0]);
+      const isWalletOwnNFT = (members.length > 0);
+      if (isWalletOwnNFT) {
+        setIsMember(isWalletOwnNFT[0].member);
+        setIsNFTAccess(true);    
+      }
       
       WalletConnectQRCodeModal.close();     
 
-      if (!isWalletFromMember && !isWalletOwnNFT) {
+      if (!isWalletOwnNFT) {
         setIsAuthenticated(false);
         setMemberWallet(null);
         localStorage.removeItem("walletconnect");

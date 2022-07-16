@@ -12,17 +12,6 @@ export const getNFTAccess = async (wallet) => {
   return response.json();
 }
 
-export const getMemberAccess = async (wallet) => {  
-  const response = await fetch(`${apiUrl}/people/${wallet.toLowerCase()}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'image/json',
-    },
-  });
-  
-  return response.json();
-}
-
 export const getHashPass = async (wallet, signature) => {
   console.log('getting hash pass with wallet:', wallet);
   const response = await fetch(`${apiUrl}/member?wallet=${wallet.toLowerCase()}`, {
