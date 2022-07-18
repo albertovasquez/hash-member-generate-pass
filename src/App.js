@@ -41,7 +41,7 @@ function App() {
       const members = await getNFTAccess(accounts[0]);
       const isWalletOwnNFT = (members.length > 0);
       if (isWalletOwnNFT) {
-        setIsMember(isWalletOwnNFT[0].member);
+        setIsMember(members[0].member);
         setIsNFTAccess(true);    
       }
       
